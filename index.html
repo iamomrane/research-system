@@ -15,7 +15,40 @@
       --accent: #9fd3ff;
       --locked: #2a2a2e;
     }
+.source {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #0f0f11;
+}
 
+.source textarea {
+  margin-top: 8px;
+}
+
+.source-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.source-actions button {
+  font-size: 13px;
+}
+
+.include-toggle {
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.include-toggle.active {
+  color: var(--accent);
+}
+
+    
     * {
       box-sizing: border-box;
     }
@@ -204,14 +237,24 @@
     <div id="step1-summary" class="summary" style="display:none;"></div>
   </section>
 
-  <!-- SECTION 2 -->
-  <section class="section locked">
-    <span class="locked-note">Locked — complete Research Objective</span>
-    <h2>2. Source Input</h2>
-    <p class="helper">
-      Add and evaluate sources before extracting information.
-    </p>
-  </section>
+<!-- SECTION 2 -->
+<section class="section locked" id="section-2">
+  <span class="locked-note">Locked — complete Research Objective</span>
+  <h2>2. Source Input</h2>
+  <p class="helper">
+    Add potential sources and evaluate whether they deserve to be used.
+  </p>
+
+  <div id="sources"></div>
+
+  <button onclick="addSource()">Add Source</button>
+
+  <button class="primary" onclick="completeStep2()" style="margin-left:12px;">
+    Lock Sources
+  </button>
+</section>
+
+  
 
   <!-- SECTION 3 -->
   <section class="section locked">
@@ -294,6 +337,102 @@ ${r}
     // Unlock Section 2
     document.querySelectorAll('.section.locked')[0].classList.remove('locked');
   }
+
+
+  <script>
+let sourceCount = 0;
+
+function addSource() {
+  sourceCount++;
+
+  const container = document.getElementById('sources');
+  const div = document.createElement('div');
+  div.className = 'source';
+  div.dataset.included = 'false';
+
+  div.innerHTML = `
+    <label>Source Title</label>
+    <textarea rows="1" class="source-title" placeholder="e.g. McKinsey AI Productivity Report"></textarea>
+
+    <label>Source Type</label>
+    <textarea rows="1" class="source-type" placeholder="Industry report / Academic paper / Blog"></textarea>
+
+    <label>Source Text</label>
+    <textarea rows="6" class="source-text" placeholder="Paste the source content here"></textarea>
+
+    <div class="source-actions">
+      <button onclick="generateSourcePrompt(this)">Generate Evaluation Prompt</button>
+      <span class="include-toggle" onclick="toggleInclude(this)">Exclude</span>
+    </div>
+
+    <textarea rows="6" class="evaluation-output" placeholder="Paste LLM evaluation output here"></textarea>
+  `;
+
+  container.appendChild(div);
+}
+
+function generateSourcePrompt(btn) {
+  const source = btn.closest('.source');
+  const title = source.querySelector('.source-title').value;
+  const type = source.querySelector('.source-type').value;
+  const text = source.querySelector('.source-text').value;
+  const question = document.getElementById('question').value;
+
+  const prompt = `
+You are a research analyst evaluating whether a source should be used.
+
+Research question:
+${question}
+
+Source title:
+${title}
+
+Source type:
+${type}
+
+Source text:
+${text}
+
+Evaluate the source strictly.
+
+Output format:
+- Relevance: Relevant / Not Relevant
+- Credibility: High / Medium / Low
+- Bias or limitations:
+- Recommendation: Include / Exclude
+- Reason (max 2 sentences):
+  `.trim();
+
+  alert(prompt);
+}
+
+function toggleInclude(span) {
+  const source = span.closest('.source');
+  const included = source.dataset.included === 'true';
+
+  source.dataset.included = (!included).toString();
+  span.textContent = included ? 'Exclude' : 'Include';
+  span.classList.toggle('active', !included);
+}
+
+function completeStep2() {
+  const sources = document.querySelectorAll('.source');
+  let includedCount = 0;
+
+  sources.forEach(s => {
+    if (s.dataset.included === 'true') includedCount++;
+  });
+
+  if (includedCount < 2) {
+    alert('Please include at least two credible sources before continuing.');
+    return;
+  }
+
+  // Unlock Section 3
+  document.querySelectorAll('.section.locked')[0].classList.remove('locked');
+}
+</script>
+
 </script>
 
 </body>
