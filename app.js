@@ -1,34 +1,54 @@
-  function setupPills(groupId) {
-    const pills = document.querySelectorAll(`#${groupId} .pill`);
-    pills.forEach(pill => {
-      pill.addEventListener('click', () => {
-        pills.forEach(p => p.classList.remove('active'));
-        pill.classList.add('active');
-      });
-    });
-  }
+/* -----------------------------
+   INITIAL SETUP
+----------------------------- */
 
+document.addEventListener('DOMContentLoaded', () => {
   setupPills('decision-type');
   setupPills('audience');
   setupPills('risk');
 
-  function getActiveText(groupId) {
-    const active = document.querySelector(`#${groupId} .pill.active`);
-    return active ? active.textContent : null;
+  const addSourceBtn = document.getElementById('add-source');
+  const lockStep2Btn = document.getElementById('lock-step-2');
+
+  if (addSourceBtn) addSourceBtn.addEventListener('click', addSource);
+  if (lockStep2Btn) lockStep2Btn.addEventListener('click', completeStep2);
+});
+
+/* -----------------------------
+   PILL LOGIC (STEP 1)
+----------------------------- */
+
+function setupPills(groupId) {
+  const pills = document.querySelectorAll(`#${groupId} .pill`);
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+    });
+  });
+}
+
+function getActiveText(groupId) {
+  const active = document.querySelector(`#${groupId} .pill.active`);
+  return active ? active.textContent : null;
+}
+
+/* -----------------------------
+   STEP 1 — RESEARCH OBJECTIVE
+----------------------------- */
+
+function completeStep1() {
+  const q = document.getElementById('question').value.trim();
+  const d = getActiveText('decision-type');
+  const a = getActiveText('audience');
+  const r = getActiveText('risk');
+
+  if (!q || !d || !a || !r) {
+    alert('Please complete all fields before continuing.');
+    return;
   }
 
-  function completeStep1() {
-    const q = document.getElementById('question').value.trim();
-    const d = getActiveText('decision-type');
-    const a = getActiveText('audience');
-    const r = getActiveText('risk');
-
-    if (!q || !d || !a || !r) {
-      alert('Please complete all fields before continuing.');
-      return;
-    }
-
-    const summary = `
+  const summary = `
 Research question:
 ${q}
 
@@ -40,17 +60,19 @@ ${a}
 
 Caution level:
 ${r}
-    `.trim();
+  `.trim();
 
-    const summaryBox = document.getElementById('step1-summary');
-    summaryBox.style.display = 'block';
-    summaryBox.textContent = summary;
+  const summaryBox = document.getElementById('step1-summary');
+  summaryBox.style.display = 'block';
+  summaryBox.textContent = summary;
 
-    // Unlock Section 2
-    document.querySelectorAll('.section.locked')[0].classList.remove('locked');
-  }
+  // Unlock Section 2
+  document.getElementById('section-2').classList.remove('locked');
+}
 
-
+/* -----------------------------
+   STEP 2 — SOURCE INPUT
+----------------------------- */
 
 let sourceCount = 0;
 
@@ -63,21 +85,43 @@ function addSource() {
   div.dataset.included = 'false';
 
   div.innerHTML = `
-    <label>Source Title</label>
-    <textarea rows="1" class="source-title" placeholder="e.g. McKinsey AI Productivity Report"></textarea>
+    <label>Source content or context</label>
+    <textarea
+      class="source-content"
+      rows="6"
+      placeholder="Paste anything relevant here:
+• URLs
+• excerpts from PDFs or reports
+• copied text
+• notes or descriptions of images
 
-    <label>Source Type</label>
-    <textarea rows="1" class="source-type" placeholder="Industry report / Academic paper / Blog"></textarea>
+Precision is not required."
+    ></textarea>
 
-    <label>Source Text</label>
-    <textarea rows="6" class="source-text" placeholder="Paste the source content here"></textarea>
+    <label>Why did you include this?</label>
+    <textarea
+      class="source-rationale"
+      rows="3"
+      placeholder="What made this stand out?
+What do you expect it to help answer?
+What signal are you hoping to extract?"
+    ></textarea>
 
     <div class="source-actions">
-      <button onclick="generateSourcePrompt(this)">Generate Evaluation Prompt</button>
-      <span class="include-toggle" onclick="toggleInclude(this)">Exclude</span>
+      <button onclick="generateSourcePrompt(this)">
+        Generate evaluation prompt
+      </button>
+
+      <span class="include-toggle" onclick="toggleInclude(this)">
+        Exclude
+      </span>
     </div>
 
-    <textarea rows="6" class="evaluation-output" placeholder="Paste LLM evaluation output here"></textarea>
+    <textarea
+      class="evaluation-output"
+      rows="6"
+      placeholder="Paste LLM evaluation output here"
+    ></textarea>
   `;
 
   container.appendChild(div);
@@ -85,32 +129,41 @@ function addSource() {
 
 function generateSourcePrompt(btn) {
   const source = btn.closest('.source');
-  const title = source.querySelector('.source-title').value;
-  const type = source.querySelector('.source-type').value;
-  const text = source.querySelector('.source-text').value;
-  const question = document.getElementById('question').value;
+  const content = source.querySelector('.source-content').value.trim();
+  const rationale = source.querySelector('.source-rationale').value.trim();
+  const question = document.getElementById('question').value.trim();
+
+  if (!content || !rationale) {
+    alert('Please provide both the source content and why you included it.');
+    return;
+  }
 
   const prompt = `
-You are a research analyst evaluating whether a source should be used.
+You are a research analyst reviewing whether a source deserves to be used.
 
-Research question:
+Research objective:
 ${question}
 
-Source title:
-${title}
+Why the user included this source:
+${rationale}
 
-Source type:
-${type}
+Source content or context:
+${content}
 
-Source text:
-${text}
+Your task:
+1. Infer what kind of source this is (report, opinion, data, anecdote, marketing, analysis, etc.).
+2. Decide whether it is directly relevant to the research objective.
+3. Assess credibility, incentives, and limitations.
+4. Make a clear inclusion decision.
 
-Evaluate the source strictly.
+Be strict.
+Default to exclusion unless there is clear value.
 
 Output format:
+- Inferred source type:
 - Relevance: Relevant / Not Relevant
 - Credibility: High / Medium / Low
-- Bias or limitations:
+- Key limitation or bias:
 - Recommendation: Include / Exclude
 - Reason (max 2 sentences):
   `.trim();
@@ -136,7 +189,7 @@ function completeStep2() {
   });
 
   if (includedCount < 2) {
-    alert('Please include at least two credible sources before continuing.');
+    alert('Please include at least two sources before continuing.');
     return;
   }
 
