@@ -1,9 +1,10 @@
-function setupPills(id) {
-  document.querySelectorAll(`#${id} .pill`).forEach(p => {
-    p.onclick = () => {
-      document.querySelectorAll(`#${id} .pill`).forEach(x => x.classList.remove('active'));
-      p.classList.add('active');
-    };
+function setupPills(groupId) {
+  const pills = document.querySelectorAll(`#${groupId} .pill`);
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+    });
   });
 }
 
@@ -11,81 +12,57 @@ setupPills('decision-type');
 setupPills('audience');
 setupPills('risk');
 
-function getActive(id) {
-  const el = document.querySelector(`#${id} .pill.active`);
-  return el ? el.textContent : null;
+function getActiveText(groupId) {
+  const active = document.querySelector(`#${groupId} .pill.active`);
+  return active ? active.textContent : null;
 }
 
 function completeStep1() {
-  if (
-    !question.value.trim() ||
-    !getActive('decision-type') ||
-    !getActive('audience') ||
-    !getActive('risk')
-  ) {
-    alert('Complete all fields.');
+  const q = document.getElementById('question').value.trim();
+  const d = getActiveText('decision-type');
+  const a = getActiveText('audience');
+  const r = getActiveText('risk');
+
+  if (!q || !d || !a || !r) {
+    alert('Please complete all fields.');
     return;
   }
-  document.getElementById('section-2').classList.remove('locked');
+
+  document.getElementById('step1-summary').style.display = 'block';
+  document.getElementById('step1-summary').textContent =
+    `Objective:\n${q}\n\nAudience: ${a}\nDecision: ${d}\nCaution: ${r}`;
+
+  document.querySelector('#section-2').classList.remove('locked');
 }
 
 let sourceCount = 0;
 
 function addSource() {
   sourceCount++;
+
   const div = document.createElement('div');
   div.className = 'source';
-  div.dataset.included = 'false';
+  div.dataset.included = 'true';
 
   div.innerHTML = `
     <label>Source content or context</label>
     <textarea rows="5" class="source-content"
-      placeholder="URLs, text, notes, PDFs, screenshots…"></textarea>
+      placeholder="Paste URLs, text, notes, or describe the material."></textarea>
 
-    <label>Why did you include this?</label>
-    <textarea rows="3" class="source-why"
-      placeholder="What signal are you hoping to extract?"></textarea>
-
-    <button onclick="generatePrompt(this)">Generate evaluation prompt</button>
-    <button onclick="toggleInclude(this)">Exclude</button>
+    <label>Why this source matters</label>
+    <textarea rows="3" class="source-rationale"
+      placeholder="Why did you pick this? What signal does it provide?"></textarea>
   `;
 
   document.getElementById('sources').appendChild(div);
 }
 
-function toggleInclude(btn) {
-  const s = btn.closest('.source');
-  const inc = s.dataset.included === 'true';
-  s.dataset.included = (!inc).toString();
-  btn.textContent = inc ? 'Exclude' : 'Include';
-}
-
-function generatePrompt(btn) {
-  const s = btn.closest('.source');
-  const prompt = `
-Research objective:
-${question.value}
-
-Why included:
-${s.querySelector('.source-why').value}
-
-Source content:
-${s.querySelector('.source-content').value}
-
-Evaluate strictly.
-`.trim();
-
-  alert(prompt);
-}
-
 function completeStep2() {
-  const included = [...document.querySelectorAll('.source')]
-    .filter(s => s.dataset.included === 'true').length;
-
-  if (included < 2) {
-    alert('Include at least two sources.');
+  const sources = document.querySelectorAll('.source');
+  if (sources.length < 2) {
+    alert('Add at least two sources.');
     return;
   }
 
-  document.querySelectorAll('.section.locked')[0].classList.remove('locked');
+  alert('Sources locked. Next steps coming soon.');
 }
