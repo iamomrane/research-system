@@ -9,76 +9,65 @@
 
 <body>
 
-<header class="nav">
-  <div class="logo">wesearch.ai</div>
-  <a href="#how" class="nav-link">How this works</a>
+<header>
+  <h1>wesearch.ai</h1>
 </header>
 
-<section class="hero">
-  <div class="hero-text">
-    <h1>
-      Structured research,<br>
-      not AI guesswork.
-    </h1>
+<main>
 
+  <section class="hero">
+    <h2>Structured research,<br/>not raw prompting.</h2>
     <p>
-      wesearch.ai turns unclear questions into decision-ready research
-      by forcing clarity before synthesis.
+      wesearch.ai forces clarity first — then applies AI where judgment breaks.
+    </p>
+  </section>
+
+  <!-- PIPELINE DIAGRAM -->
+  <section class="pipeline">
+    <svg width="100%" height="140" viewBox="0 0 900 140" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <style>
+          .box { fill: #141416; stroke: #232326; stroke-width: 1.2; }
+          .active { stroke: #9fd3ff; }
+          .label { fill: #e6e6e6; font-size: 14px; font-family: system-ui, sans-serif; }
+          .arrow { stroke: #3a3a3f; stroke-width: 1.2; marker-end: url(#arrowhead); }
+        </style>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#3a3a3f"/>
+        </marker>
+      </defs>
+
+      <!-- Boxes -->
+      <rect x="20"  y="40" rx="10" ry="10" width="140" height="50" class="box active"/>
+      <rect x="190" y="40" rx="10" ry="10" width="140" height="50" class="box"/>
+      <rect x="360" y="40" rx="10" ry="10" width="140" height="50" class="box"/>
+      <rect x="530" y="40" rx="10" ry="10" width="140" height="50" class="box"/>
+      <rect x="700" y="40" rx="10" ry="10" width="140" height="50" class="box"/>
+
+      <!-- Labels -->
+      <text x="90"  y="70" text-anchor="middle" class="label">Objective</text>
+      <text x="260" y="70" text-anchor="middle" class="label">Sources</text>
+      <text x="430" y="70" text-anchor="middle" class="label">Extraction</text>
+      <text x="600" y="70" text-anchor="middle" class="label">Synthesis</text>
+      <text x="770" y="70" text-anchor="middle" class="label">Brief</text>
+
+      <!-- Arrows -->
+      <line x1="160" y1="65" x2="190" y2="65" class="arrow"/>
+      <line x1="330" y1="65" x2="360" y2="65" class="arrow"/>
+      <line x1="500" y1="65" x2="530" y2="65" class="arrow"/>
+      <line x1="670" y1="65" x2="700" y2="65" class="arrow"/>
+    </svg>
+
+    <p class="pipeline-caption">
+      A controlled research pipeline that preserves evidence and judgment.
     </p>
 
-    <a href="research.html" class="cta">
+    <a href="research.html" class="primary start-btn">
       Start a research session →
     </a>
-  </div>
+  </section>
 
-  <div class="hero-visual">
-    <div class="blob"></div>
-  </div>
-</section>
-
-<section class="how" id="how">
-  <h2>How this works</h2>
-
-  <p class="intro">
-    Most AI tools jump straight to answers.
-    wesearch.ai forces you to think first — then applies AI where it helps.
-  </p>
-
-  <div class="comparison">
-    <div class="card">
-      <h3>Raw prompting</h3>
-      <ul>
-        <li>Vague questions</li>
-        <li>Hidden assumptions</li>
-        <li>Mixed sources</li>
-        <li>Overconfident answers</li>
-      </ul>
-    </div>
-
-    <div class="card highlight">
-      <h3>wesearch.ai</h3>
-      <ul>
-        <li>Explicit objective</li>
-        <li>Human judgment preserved</li>
-        <li>Visible evidence</li>
-        <li>Decision-ready output</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="pipeline">
-    <div class="step"><span>1</span>Objective</div>
-    <div class="step"><span>2</span>Sources</div>
-    <div class="step"><span>3</span>Extraction</div>
-    <div class="step"><span>4</span>Synthesis</div>
-    <div class="step"><span>5</span>Brief</div>
-  </div>
-</section>
-
-<section class="final">
-  <h2>Think clearly. Then decide.</h2>
-  <a href="research.html" class="cta">Start research →</a>
-</section>
+</main>
 
 </body>
 </html>
