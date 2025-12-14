@@ -13,54 +13,53 @@
 
 body {
   margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   background: var(--bg);
   color: var(--text);
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   line-height: 1.6;
 }
 
-header {
-  padding: 24px 40px;
+.top {
   border-bottom: 1px solid var(--border);
 }
 
-header h1 {
-  font-size: 18px;
+.brand {
+  padding: 24px 0;
   font-weight: 600;
 }
 
-main {
-  max-width: 960px;
+.container {
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 80px 24px 120px;
+  padding: 0 24px;
 }
 
-.block {
-  margin-bottom: 120px;
+.container.narrow {
+  max-width: 700px;
 }
 
-.block.muted {
+.hero {
+  padding: 80px 0 60px;
+}
+
+.hero h1 {
+  font-size: 42px;
+  margin-bottom: 16px;
+}
+
+.hero .sub {
   color: var(--muted);
-}
-
-h2 {
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 1.2;
-  margin-bottom: 20px;
-}
-
-.subtext {
   font-size: 16px;
-  color: var(--muted);
-  max-width: 620px;
 }
 
-.compare {
+.comparison {
+  padding: 60px 0;
+}
+
+.grid-2 {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
-  margin-top: 48px;
 }
 
 .card {
@@ -70,13 +69,8 @@ h2 {
   padding: 24px;
 }
 
-.card.highlight {
-  border-color: var(--accent);
-}
-
 .card h3 {
   margin-top: 0;
-  font-size: 18px;
 }
 
 .card ul {
@@ -85,53 +79,49 @@ h2 {
 
 .card li {
   margin-bottom: 8px;
-  color: var(--muted);
 }
 
-.emphasis {
-  margin-top: 32px;
-  font-weight: 500;
-  color: var(--text);
-}
-
-.pipeline {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 48px;
-  flex-wrap: wrap;
-}
-
-.step {
-  padding: 10px 18px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--panel);
-  font-size: 14px;
-  color: var(--muted);
-}
-
-.step.active {
+.card.accent {
   border-color: var(--accent);
-  color: var(--accent);
 }
 
-.arrow {
+.process {
+  padding: 80px 0 120px;
+}
+
+.process h2 {
+  margin-bottom: 16px;
+}
+
+.process p {
+  margin-bottom: 16px;
+}
+
+.process .muted {
   color: var(--muted);
 }
 
-.footnote {
-  margin-top: 20px;
+.steps {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 32px 0;
   font-size: 14px;
   color: var(--muted);
+}
+
+.steps span {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
 }
 
 .cta {
   display: inline-block;
-  margin-top: 48px;
-  padding: 12px 20px;
-  border-radius: 8px;
+  margin-top: 24px;
+  padding: 12px 18px;
   border: 1px solid var(--accent);
+  border-radius: 6px;
   color: var(--accent);
   text-decoration: none;
   font-size: 14px;
