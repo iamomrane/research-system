@@ -2,112 +2,299 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Research System – Step 1</title>
+  <title>wesearch.ai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
+    :root {
+      --bg: #0b0b0c;
+      --panel: #141416;
+      --border: #232326;
+      --text: #e6e6e6;
+      --muted: #9a9a9f;
+      --accent: #9fd3ff;
+      --locked: #2a2a2e;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: system-ui, sans-serif;
-      background: #f7f7f7;
-      padding: 40px;
-      max-width: 800px;
-      margin: auto;
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
     }
-    h1 {
-      margin-bottom: 10px;
+
+    header {
+      padding: 24px 40px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    label {
+
+    header h1 {
+      font-size: 18px;
       font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+
+    header a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 24px 120px;
+    }
+
+    .section {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 28px;
+      margin-bottom: 32px;
+      position: relative;
+    }
+
+    .section.locked {
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .section h2 {
+      margin: 0 0 6px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .section p.helper {
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    label {
       display: block;
       margin-top: 20px;
+      font-size: 13px;
+      color: var(--muted);
     }
-    textarea, select {
+
+    textarea {
       width: 100%;
-      margin-top: 8px;
-      padding: 10px;
+      margin-top: 6px;
+      padding: 12px;
+      border-radius: 6px;
+      background: #0f0f11;
+      border: 1px solid var(--border);
+      color: var(--text);
+      resize: vertical;
       font-size: 14px;
     }
+
+    .pills {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #0f0f11;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .pill.active {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
     button {
-      margin-top: 30px;
-      padding: 12px 18px;
+      margin-top: 28px;
+      padding: 10px 16px;
       font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #101013;
+      color: var(--text);
       cursor: pointer;
     }
-    .output {
-      margin-top: 40px;
-      background: #fff;
-      padding: 20px;
-      border-left: 4px solid #000;
+
+    button.primary {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .summary {
+      margin-top: 24px;
+      background: #0f0f11;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 14px;
       white-space: pre-wrap;
+    }
+
+    .locked-note {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 12px;
+      color: var(--muted);
     }
   </style>
 </head>
+
 <body>
 
-  <h1>Step 1: Define the Research Objective</h1>
-  <p>This step clarifies what decision the research should support.</p>
+<header>
+  <h1>wesearch.ai</h1>
+  <a href="#">How this works</a>
+</header>
 
-  <label>Research Question</label>
-  <textarea id="question" rows="4" placeholder="e.g. What are the trends in AI adoption?"></textarea>
+<main>
 
-  <label>Decision Type</label>
-  <select id="decisionType">
-    <option>Understand</option>
-    <option>Compare</option>
-    <option>Decide</option>
-    <option>Evaluate risk</option>
-  </select>
+  <!-- SECTION 1 -->
+  <section class="section" id="section-1">
+    <h2>1. Research Objective</h2>
+    <p class="helper">
+      Clarify what you’re trying to figure out before looking at any information.
+    </p>
 
-  <label>Intended Audience</label>
-  <select id="audience">
-    <option>Founder</option>
-    <option>Manager</option>
-    <option>Student</option>
-    <option>Researcher</option>
-  </select>
+    <label>What are you trying to figure out?</label>
+    <textarea id="question" rows="4" placeholder="Should we invest in AI-powered customer support tools in the next 12 months?"></textarea>
 
-  <label>Risk Tolerance</label>
-  <select id="risk">
-    <option>Low</option>
-    <option>Medium</option>
-    <option>High</option>
-  </select>
+    <label>What will this research help you do?</label>
+    <div class="pills" id="decision-type">
+      <div class="pill">Understand</div>
+      <div class="pill">Compare</div>
+      <div class="pill">Make a decision</div>
+      <div class="pill">Assess risk</div>
+    </div>
 
-  <button onclick="generatePrompt()">Generate Orientation Prompt</button>
+    <label>Who is this for?</label>
+    <div class="pills" id="audience">
+      <div class="pill">Founder</div>
+      <div class="pill">Manager</div>
+      <div class="pill">Student</div>
+      <div class="pill">Researcher</div>
+    </div>
 
-  <div id="output" class="output" style="display:none;"></div>
+    <label>How cautious should the conclusions be?</label>
+    <div class="pills" id="risk">
+      <div class="pill">Low</div>
+      <div class="pill">Medium</div>
+      <div class="pill">High</div>
+    </div>
 
-  <script>
-    function generatePrompt() {
-      const q = document.getElementById("question").value;
-      const d = document.getElementById("decisionType").value;
-      const a = document.getElementById("audience").value;
-      const r = document.getElementById("risk").value;
+    <button class="primary" onclick="completeStep1()">Lock Research Objective</button>
 
-      const prompt = `
-You are a research analyst.
+    <div id="step1-summary" class="summary" style="display:none;"></div>
+  </section>
 
-User input:
-Research question: ${q}
-Decision type: ${d}
-Audience: ${a}
-Risk tolerance: ${r}
+  <!-- SECTION 2 -->
+  <section class="section locked">
+    <span class="locked-note">Locked — complete Research Objective</span>
+    <h2>2. Source Input</h2>
+    <p class="helper">
+      Add and evaluate sources before extracting information.
+    </p>
+  </section>
 
-Your task:
-1. Rewrite the research question so it is decision-oriented and unambiguous.
-2. Explicitly state what decision this research should support.
-3. Define what is IN scope and OUT of scope.
+  <!-- SECTION 3 -->
+  <section class="section locked">
+    <span class="locked-note">Locked — select sources</span>
+    <h2>3. Extraction Workspace</h2>
+    <p class="helper">
+      Extract claims, evidence, and assumptions from each source.
+    </p>
+  </section>
 
-Output format:
-- Refined research question:
-- Decision this supports:
-- In scope:
-- Out of scope:
-      `.trim();
+  <!-- SECTION 4 -->
+  <section class="section locked">
+    <span class="locked-note">Locked — complete extraction</span>
+    <h2>4. Synthesis Workspace</h2>
+    <p class="helper">
+      Identify consensus, disagreement, and uncertainty across sources.
+    </p>
+  </section>
 
-      const outputDiv = document.getElementById("output");
-      outputDiv.style.display = "block";
-      outputDiv.textContent = prompt;
+  <!-- SECTION 5 -->
+  <section class="section locked">
+    <span class="locked-note">Locked — complete synthesis</span>
+    <h2>5. Final Brief</h2>
+    <p class="helper">
+      Produce a decision-ready research brief.
+    </p>
+  </section>
+
+</main>
+
+<script>
+  function setupPills(groupId) {
+    const pills = document.querySelectorAll(`#${groupId} .pill`);
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        pills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+      });
+    });
+  }
+
+  setupPills('decision-type');
+  setupPills('audience');
+  setupPills('risk');
+
+  function getActiveText(groupId) {
+    const active = document.querySelector(`#${groupId} .pill.active`);
+    return active ? active.textContent : null;
+  }
+
+  function completeStep1() {
+    const q = document.getElementById('question').value.trim();
+    const d = getActiveText('decision-type');
+    const a = getActiveText('audience');
+    const r = getActiveText('risk');
+
+    if (!q || !d || !a || !r) {
+      alert('Please complete all fields before continuing.');
+      return;
     }
-  </script>
+
+    const summary = `
+Research question:
+${q}
+
+Decision type:
+${d}
+
+Audience:
+${a}
+
+Caution level:
+${r}
+    `.trim();
+
+    const summaryBox = document.getElementById('step1-summary');
+    summaryBox.style.display = 'block';
+    summaryBox.textContent = summary;
+
+    // Unlock Section 2
+    document.querySelectorAll('.section.locked')[0].classList.remove('locked');
+  }
+</script>
 
 </body>
 </html>
