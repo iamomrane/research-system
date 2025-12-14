@@ -4,107 +4,143 @@
   <meta charset="UTF-8" />
   <title>wesearch.ai</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="style.css" />
-
+  <link rel="stylesheet" href="home.css" />
 </head>
 
 <body>
 
-<header>
-  <h1>wesearch.ai</h1>
-  <a href="#">How this works</a>
+<header class="nav">
+  <div class="logo">wesearch.ai</div>
+  <a href="#how-it-works" class="nav-link">How this works</a>
 </header>
 
-<main>
-
-  <!-- SECTION 1 -->
-  <section class="section" id="section-1">
-    <h2>1. Research Objective</h2>
-    <p class="helper">
-      Clarify what you’re trying to figure out before looking at any information.
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <h1>
+      Structured research,<br />
+      not AI guesswork.
+    </h1>
+    <p>
+      wesearch.ai turns vague questions into decision-ready research —
+      without pretending AI “knows” things.
     </p>
 
-    <label>What are you trying to figure out?</label>
-    <textarea id="question" rows="4" placeholder="Should we invest in AI-powered customer support tools in the next 12 months?"></textarea>
+    <a href="research.html" class="cta">
+      Start a research session →
+    </a>
+  </div>
 
-    <label>What will this research help you do?</label>
-    <div class="pills" id="decision-type">
-      <div class="pill">Understand</div>
-      <div class="pill">Compare</div>
-      <div class="pill">Make a decision</div>
-      <div class="pill">Assess risk</div>
-    </div>
-
-    <label>Who is this for?</label>
-    <div class="pills" id="audience">
-      <div class="pill">Founder</div>
-      <div class="pill">Manager</div>
-      <div class="pill">Student</div>
-      <div class="pill">Researcher</div>
-    </div>
-
-    <label>How cautious should the conclusions be?</label>
-    <div class="pills" id="risk">
-      <div class="pill">Low</div>
-      <div class="pill">Medium</div>
-      <div class="pill">High</div>
-    </div>
-
-    <button class="primary" onclick="completeStep1()">Lock Research Objective</button>
-
-    <div id="step1-summary" class="summary" style="display:none;"></div>
-  </section>
-
-<!-- SECTION 2 -->
-<section class="section locked" id="section-2">
-  <span class="locked-note">Locked — complete Research Objective</span>
-
-  <h2>2. Source Input</h2>
-  <p class="helper">
-    Add anything you think might matter. The system will evaluate whether it deserves attention.
-  </p>
-
-  <div id="sources"></div>
-
-  <button id="add-source">Add Source</button>
-
-  <button class="primary" id="lock-step-2" style="margin-left:12px;">
-    Lock Sources
-  </button>
+  <div class="hero-visual">
+    <!-- Visual placeholder -->
+    <div class="blob"></div>
+  </div>
 </section>
 
-  
+<!-- TRUST STRIP -->
+<section class="trust">
+  <p>Built for people who care about accuracy, judgment, and traceability.</p>
+</section>
 
-  <!-- SECTION 3 -->
-  <section class="section locked">
-    <span class="locked-note">Locked — select sources</span>
-    <h2>3. Extraction Workspace</h2>
-    <p class="helper">
-      Extract claims, evidence, and assumptions from each source.
-    </p>
-  </section>
+<!-- HOW IT WORKS -->
+<section class="how" id="how-it-works">
+  <h2>How this works</h2>
 
-  <!-- SECTION 4 -->
-  <section class="section locked">
-    <span class="locked-note">Locked — complete extraction</span>
-    <h2>4. Synthesis Workspace</h2>
-    <p class="helper">
-      Identify consensus, disagreement, and uncertainty across sources.
-    </p>
-  </section>
+  <p class="how-intro">
+    Most AI research tools jump straight to answers.
+    wesearch.ai forces clarity first — then applies AI where it actually helps.
+  </p>
 
-  <!-- SECTION 5 -->
-  <section class="section locked">
-    <span class="locked-note">Locked — complete synthesis</span>
-    <h2>5. Final Brief</h2>
-    <p class="helper">
-      Produce a decision-ready research brief.
-    </p>
-  </section>
+  <!-- COMPARISON -->
+  <div class="comparison">
+    <div class="card bad">
+      <h3>Raw AI Prompting</h3>
+      <ul>
+        <li>Vague questions</li>
+        <li>Mixed-quality sources</li>
+        <li>Hidden bias</li>
+        <li>High confidence, low reliability</li>
+      </ul>
+    </div>
 
-</main>
+    <div class="card good">
+      <h3>wesearch.ai</h3>
+      <ul>
+        <li>Explicit research objective</li>
+        <li>Human-selected sources</li>
+        <li>Visible assumptions</li>
+        <li>Decision-ready output</li>
+      </ul>
+    </div>
+  </div>
 
-<script src="app.js"></script>
+  <!-- PIPELINE -->
+  <div class="pipeline">
+    <div class="step">
+      <span>1</span>
+      <h4>Research Objective</h4>
+      <p>Clarify what you’re trying to figure out and why.</p>
+    </div>
+
+    <div class="step">
+      <span>2</span>
+      <h4>Source Input</h4>
+      <p>Bring raw material. Explain why it matters.</p>
+    </div>
+
+    <div class="step">
+      <span>3</span>
+      <h4>Extraction</h4>
+      <p>Separate claims, evidence, and assumptions.</p>
+    </div>
+
+    <div class="step">
+      <span>4</span>
+      <h4>Synthesis</h4>
+      <p>See agreement, disagreement, and uncertainty.</p>
+    </div>
+
+    <div class="step">
+      <span>5</span>
+      <h4>Final Brief</h4>
+      <p>Produce a clear, traceable research brief.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT IT IS / ISN'T -->
+<section class="boundaries">
+  <h2>What wesearch.ai is — and isn’t</h2>
+
+  <div class="boundary-grid">
+    <div>
+      <h4>It is</h4>
+      <ul>
+        <li>A structured research workspace</li>
+        <li>A judgment amplifier</li>
+        <li>A thinking scaffold</li>
+      </ul>
+    </div>
+
+    <div>
+      <h4>It is not</h4>
+      <ul>
+        <li>A search engine</li>
+        <li>An autonomous agent</li>
+        <li>A knowledge base</li>
+        <li>A multi-user platform</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <h2>Ready to start thinking clearly?</h2>
+  <a href="research.html" class="cta">
+    Start research →
+  </a>
+</section>
 
 </body>
 </html>
